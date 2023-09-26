@@ -11,5 +11,10 @@
     "url": "traveloo-backend"
   },
   "author": "Ehtisham",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.3",
+    "nodemon": "^3.0.1"
+  }
 }
