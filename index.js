@@ -1,12 +1,13 @@
 const express = require("express")
 const app = express()
-const connectDB = require("./db");
+const connectDb = require("./db");
 var cors = require('cors')
 require('dotenv').config();  // to obtain data from .env file
 
 
 //Connecting the Database
-connectDB();
+connectDb();
+
 app.use(cors());
 
 app.use(express.json());

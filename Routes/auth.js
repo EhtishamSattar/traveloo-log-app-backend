@@ -55,4 +55,52 @@ router.post("/signUp", [
 
 });
 
+router.post('/Login',[
+    body('email','Enter a valid Email').isEmail(),
+    body('password','Password cant be blank').exists(),
+],async (req,res)=>{
+
+    let success=false;
+    let errors=validationResult(req);
+    if(!errors.isEmpty())
+    {
+        return res.status(400).json({errors:errors.array()});
+    }
+
+    try 
+    {
+        const {email,password}=req.body;
+        let user=await Users.findOne({email});
+        if(!user)
+        {
+            success=false;
+            return res.status(400).json({success,error:'Invalid Email'});
+        }
+
+       // user from the findone function , that user password is compared with the entered 
+       //password
+        const passwordCompare=await bcrypt.compare(password,user.password);
+
+        if(!passwordCompare)
+        {
+            success=false;
+            return res.status(400).json({success,error:'Incorrect Password'});
+        }
+
+        const data={
+            user:{
+
+                id:user.id
+            }
+        }
+        success=true;
+        var authToken = jwt.sign(data, JWT_SECRET);
+        res.json({success,authToken});
+
+    }catch (error) {
+        res.status(500).send('Internal server error');
+    }
+
+})
+
 module.exports=router;

@@ -1,12 +1,15 @@
-const Mongoose = require("mongoose")
-const localDB = `mongodb://localhost:27017/travelooBackend`
+const mongoose=require('mongoose');
+const mongooseURI='mongodb://localhost:27017/travelooBackend';
 
-const connectDB = async () => {
-    await Mongoose.connect(localDB, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    console.log("MongoDB Connected")
+const connectDb=()=>{
+    console.log("in function");
+    mongoose.connect(mongooseURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
 }
 
-module.exports = connectDB
+module.exports=connectDb;
