@@ -14,9 +14,9 @@ router.post("/signUp", [
 
 ], async (req, res) => {
 
-    success- false;	
-    var errors = validationResult(req);
-    if (!errors.empty()) {
+    let success = false;	
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
@@ -26,20 +26,16 @@ router.post("/signUp", [
         return res.status(400).json({ success, error: "Sorry, A user with this email exists" });
     }
 
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     user = User.create({
-        username: name,
+        username: username,
         email: email,
         password: hashedPassword
     });
-
-    if (user){
-        return res.status(200).json({ success, data: user });
-    }
 
     success=true;
 
@@ -55,11 +51,13 @@ router.post("/signUp", [
 
 });
 
-router.post('/Login',[
-    body('email','Enter a valid Email').isEmail(),
-    body('password','Password cant be blank').exists(),
+router.post('/login',[
+    body("name", "Please enter a valid name").isLength({ min: 3 }),
+    body("email","Enter a valid Email").isEmail(),
+    body("password","Password cant be blank").exists()
 ],async (req,res)=>{
 
+    console.log(req.body);
     let success=false;
     let errors=validationResult(req);
     if(!errors.isEmpty())
@@ -69,8 +67,8 @@ router.post('/Login',[
 
     try 
     {
-        const {email,password}=req.body;
-        let user=await Users.findOne({email});
+        const {name,email,password}=req.body;
+        let user=await User.findOne({email});
         if(!user)
         {
             success=false;
@@ -93,6 +91,7 @@ router.post('/Login',[
                 id:user.id
             }
         }
+        console.log("yes broooo");
         success=true;
         var authToken = jwt.sign(data, JWT_SECRET);
         res.json({success,authToken});
