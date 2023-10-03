@@ -1,4 +1,7 @@
-const express=require("express");
+// this middle ware will autheticate the request made by user and will check if the user is valid or not
+// for the request (the user session will be maintained in locat storage of browser)
+//
+
 const jwt=require("jsonwebtoken");
 
 const JWT_SECRET="$sham";
