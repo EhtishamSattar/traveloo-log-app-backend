@@ -8,7 +8,7 @@ const router = express.Router();
 const JWT_SECRET="$sham";
 
 router.post("/signUp", [
-    body("name", "Please enter a valid name").isLength({ min: 3 }),
+    body("username", "Please enter a valid name").isLength({ min: 3 }),
     body("email", "Please enter a valid email").isEmail(),
     body("password", "Please enter a valid password").isLength({ min: 6 }),
 
@@ -44,15 +44,16 @@ router.post("/signUp", [
             id:user.id
         }
     }
+    const id=user._id;
 
     const authToken = jwt.sign(data, JWT_SECRET);
-    res.json({success, authToken});
+    res.json({id,username,email,success, authToken});
 
 
 });
 
 router.post('/login',[
-    body("name", "Please enter a valid name").isLength({ min: 3 }),
+    body("username", "Please enter a valid name").isLength({ min: 3 }),
     body("email","Enter a valid Email").isEmail(),
     body("password","Password cant be blank").exists()
 ],async (req,res)=>{
@@ -67,8 +68,10 @@ router.post('/login',[
 
     try 
     {
-        const {name,email,password}=req.body;
+        const {username,email,password}=req.body;
         let user=await User.findOne({email});
+        console.log(user);
+        const id=user._id;
         if(!user)
         {
             success=false;
@@ -85,16 +88,19 @@ router.post('/login',[
             return res.status(400).json({success,error:'Incorrect Password'});
         }
 
+    
         const data={
             user:{
 
                 id:user.id
             }
         }
-        console.log("yes broooo");
+        
         success=true;
+    
         var authToken = jwt.sign(data, JWT_SECRET);
-        res.json({success,authToken});
+        console.log(username,email);
+        res.json({id,username,email,success,authToken});
 
     }catch (error) {
         res.status(500).send('Internal server error');

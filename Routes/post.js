@@ -1,5 +1,5 @@
 const router = require ('express').Router();
-const fetchUser=require('../middleware/fetchUser');
+const fetchUser=require('../Middlewares/fetchuser');
 const Post = require('../Models/Post')
 
 router.get('/getPosts',fetchUser,async (req,res)=>{
@@ -15,13 +15,15 @@ router.get('/getPosts',fetchUser,async (req,res)=>{
 
 router.post('/createPost',fetchUser,async (req,res)=>{
     try{
-        const {title,description,url,status}=req.body;
-        if(!title || !description || !url || !status)
+        const {title,description,author}=req.body;
+        if(!title || !description || !url || !author)
         {
             return res.status(400).json({error:"Please fill all the fields"});
         }
         const post=new Post({
-            title,description,url,status,user:req.user.id
+            post_title:title,
+            post_content:description,
+            post_author:author,
         })
         const savedPost=await post.save();
         res.json({savedPost});

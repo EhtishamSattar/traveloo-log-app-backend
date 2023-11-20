@@ -18,6 +18,7 @@ const server = app.listen(PORT, () =>
   console.log(`Server Connected to port ${PORT}`)
 )
 app.use('/api/auth', require("./Routes/auth"));
+app.use('/api/post', require("./Routes/post"));
 
 // Handling Error
 process.on("unhandledRejection", err => {
@@ -26,3 +27,4 @@ process.on("unhandledRejection", err => {
 })
 
 
+module.exports = app;

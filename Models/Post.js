@@ -12,7 +12,8 @@ const PostSchema = new Mongoose.Schema({
         required: true,
     },
     post_author: {
-        type: String,
+        type: Mongoose.Schema.Types.ObjectId, // Reference to User's ObjectId
+        ref: 'User', // Reference to the User collection
         required: true,
     },
     post_date: {
@@ -21,6 +22,7 @@ const PostSchema = new Mongoose.Schema({
     },
     post_last_modified: {
         type: Date,
+        default:null,
     },
     post_likes: {
         type: Number,
@@ -30,13 +32,9 @@ const PostSchema = new Mongoose.Schema({
         type: Number,
         default: 0,
     },
-    author: {
-        type: Mongoose.Schema.Types.ObjectId, // Reference to User's ObjectId
-        ref: 'User', // Reference to the User collection
-        required: true,
-    },
     post_image: {
-        type: String, // You can store the image URL or file path
+        type: Buffer, // Store image as binary data
+        default: null,
     },
 });
 
