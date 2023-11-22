@@ -1,7 +1,8 @@
-const express = require("express")
-const app = express()
+const express = require("express");
+const app = express();
 const connectDb = require("./db");
-var cors = require('cors')
+const fetchuser=require('./Middlewares/fetchuser');
+var cors = require('cors');
 require('dotenv').config();  // to obtain data from .env file
 
 
@@ -9,7 +10,6 @@ require('dotenv').config();  // to obtain data from .env file
 connectDb();
 
 app.use(cors());
-
 app.use(express.json());
 
 // listening to port

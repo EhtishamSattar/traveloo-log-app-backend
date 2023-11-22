@@ -14,6 +14,7 @@ router.post("/signUp", [
 
 ], async (req, res) => {
 
+    console.log("in sign up authentication");
     let success = false;	
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -45,7 +46,7 @@ router.post("/signUp", [
         }
     }
     const id=user._id;
-
+    console.log(id);
     const authToken = jwt.sign(data, JWT_SECRET);
     res.json({id,username,email,success, authToken});
 
@@ -70,8 +71,10 @@ router.post('/login',[
     {
         const {username,email,password}=req.body;
         let user=await User.findOne({email});
-        console.log(user);
+        console.log("--------------------");
+        console.log(user._id);
         const id=user._id;
+        //console.log(id);
         if(!user)
         {
             success=false;
@@ -99,7 +102,7 @@ router.post('/login',[
         success=true;
     
         var authToken = jwt.sign(data, JWT_SECRET);
-        console.log(username,email);
+        console.log("id,username,email");
         res.json({id,username,email,success,authToken});
 
     }catch (error) {

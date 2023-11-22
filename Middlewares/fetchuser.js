@@ -5,7 +5,7 @@
 const jwt=require("jsonwebtoken");
 
 const JWT_SECRET="$sham";
-const fetchUser=async (req,res,next)=>{
+const fetchuser=async (req,res,next)=>{
     const token=req.header("auth-token");
     if(!token)
     {
@@ -22,4 +22,4 @@ const fetchUser=async (req,res,next)=>{
 
 }
 
-module.exports=fetchUser;
+module.exports=fetchuser;
